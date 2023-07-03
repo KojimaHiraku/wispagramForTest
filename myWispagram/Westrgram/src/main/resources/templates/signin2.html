@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>サブパスワードログイン /signin2</title>
+      <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" th:href="@{css/style.css}" />
+</head>
+<body>
+    <header id="header" class="header">
+        <div class="header__inner">
+            <form action="" class="--right">
+                <button formaction="/signin" class="login btn2" type="submit">ログイン</button>
+                <button formaction="/signup" class="sighin btn2" type="submit">ユーザー登録</button>
+            </form>
+        </div>
+    </header>
+    <div class="wrapper">
+        <section id="signin2">
+            <h1 class="title">サブパスワードでログイン</h1>
+            <table>
+            <tr>
+            	<td style="color:red;" th:text="${nothing}"></td>
+            </tr>
+           <tr>
+           		<td style="color:red;" th:text="${notFind}"></td>
+           </tr>
+           <tr>
+           		<td style="color:red;" th:text="${miss}"></td>
+           </tr>
+            </table>
+
+            <form action="/signin2" method="post" class="form-1">
+				<input name="ID" id="" class="input" placeholder="ユーザーID" th:value="${ID}">
+				<div>
+					<dl class="--flex-a">
+						<dt class="signin2__left"> <label for="signin2__question" class="--label-txt">ひみつの質問：</label></dt>
+						<dd class="signin2__right"><div th:text="${subPasswordText}" class="--label-txt"></div></dd>
+					</dl>
+               		<input name="subPasswordAnswer" id="signin2__question" class="input" placeholder="質問の答え">
+				</div>  
+				
+                
+                <div class="btn__wrapper">
+                    <button class="btn" type="submit">つぎへ</button>
+                </div>
+            </form>
+            
+        </section>
+
+    </div>    
+
+</body>
+</html>

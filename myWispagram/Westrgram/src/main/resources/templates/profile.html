@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>profile</title>
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" th:href="@{css/style.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="--gray">
+    <header id="header" class="header --bg">
+        <div class="header__inner">
+            <div class="form-2">
+                <div class="--flex">
+                    <form>
+                        <button class="btn2" type="submit" formaction="/home">ホーム</button>
+                        <button class="btn2" type="submit" formaction="/bookmarks">ブックマーク</button>
+                    </form>
+                    <form action="/searched" method="post">
+                        <input name="search" placeholder="検索" class="input">
+                    </form>
+                    
+                </div>
+                <div class="--flex">
+                    <form th:action="@{/ProfileTo_myProfile}" method="post">
+	                    <button class="header__img" style="display: inline-block;">
+	                        <img th:src="${ImImg}" alt="コンパスジャパンの画像" class="Homeprofile__icon">
+	                        <!-- <img src="#" alt=""> -->
+	                    </button>
+	                </form>
+	                <form action="/signin">
+	                    <button class="logout btn2" type="submit">ログアウト</button>
+	                </form>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="wrapper2">
+        <section id="profile">
+
+            <div class="profile__body">
+                <div class="profile__box">
+                    <form>
+                        <div id="edit_button" class="btn__wrapper btn__right">
+
+                        </div>
+                    </form>
+                    <ul class="profile__list">
+                        <li class="profile__left">
+                            <div class="profile__icon">
+                                <img th:src="${icon_image}" alt="コンパスジャパンの画像">
+                            </div>
+                            <div class="profile__name">
+                                <!--<p class="message">山田花子</p>-->
+                                <label class="text__name" name="user_name" th:text="${user_name}"></label>
+                            </div>
+                        </li>
+                        <li class="profile__right">
+                            <!--<p class="message">初めまして、なんとかハナコです。よろしくお願いいたします！！！ああああああああ</p> -->
+                            <label class="message" name="profile_text" th:text="${profile_text}"></label>
+                        </li>
+                    </ul>
+                </div>
+                <div class="profile__bottom">
+                    <ul class="comment__list">
+                        <!-- 繰り返す　仮コメント -->
+	                    <th:block th:each="Twidata : ${TwList}">
+	                        <div>
+	                            <li class="comment___item">
+	                                <div class="comment__left">
+	                                    <form th:action="@{/ProfileTo_user_profile}" method="post">　<!-- どうやらこれらしい。-->
+	                                        <button class="comment__icon">
+	                                            <img th:src="${Twidata.ownerIconImage}" alt="コンパスジャパンの画像">
+	                                        </button>
+	                                        <input name="ListNo" th:value="${TwidataStat.index}" style="display:none;">
+	                                    </form>
+	                                </div>
+	                                <div class="comment__right">
+	                                    <ul class="text__list">
+	                                        <li class="text__item">
+	     										   <p class="text__name" th:text="${Twidata.ownerName}"></p>
+	     										   <p class="text__time" th:text="${Twidata.getTweetedTime()}"></p>
+	    										</li>
+	                                        <li class="text__item">
+	                                            <p class="message" th:text="${Twidata.tweetText}"></p>
+	                                        </li>
+	                                        <li class="Tweet_Image">
+	                                            <img th:src="${Twidata.tweetImage1}" alt
+	                                                onerror="this.onerror = null; this.src='';">
+	                                            <img th:src="${Twidata.tweetImage2}" alt
+	                                                onerror="this.onerror = null; this.src='';">
+	                                            <!-- <img src="#" alt=""> まず分かっている事1.直でリンク張ると出る　2.getIconImage()の値は正常　3. ImImgのテキスト情報も正常 4.だが映らない。-->
+	                                        </li>
+	
+	                                        <li class="text__item --flex">
+	     							  			<form th:action="@{/ProfileBookmark}" class="--icons" method="post">
+	       											<button class="text__bookmark">
+	              										<i class="fa-solid fa-star bm"></i>
+	       								 			</button>
+	       								 			<input name="ListNo" th:value="${TwidataStat.index}" style="display:none;">
+	       							   			</form>
+	       										<form th:action="@{/ProfileFavmark}" class="--icons" method="post">
+	       								 			<button class="text__heart">
+	           											<i class="fa-solid fa-heart fav"></i>
+	       								 			</button>
+	       								 			<label name="favCount" th:text="${Twidata.favCount}" class="--fav-txt"></label>
+	       							 				<input name="ListNo" th:value="${TwidataStat.index}" style="display:none;">
+	       										</form>
+	       										<!-6/28小島が追加ほぼ完成->
+	       										<form th:action="@{/ProfileDeleteTweet}" class="--icons" method="post">
+	       								 			<button class="text__heart" type="submit">
+	           											削除
+	       								 			</button>
+	       											<input name="ListNo" th:value="${TwidataStat.index}" style="display:none;">
+       											</form>
+       											<!-ここまで->
+       										
+	   										 </li>
+	                                    </ul>
+	                                </div>
+	                            </li>
+	                        </div>
+	                    </th:block>
+                        <!-- TwidataにStatでステータス変数名として使用できる -->
+                    </ul>
+                </div>
+
+            </div>
+
+            <form action="/profileAdd" method="post">
+           		<div style="padding: 24px 0;">
+            		<button class="logout btn2" type="submit" style=" margin: 0 auto; display: block;">追加読込</button>
+            	</div>
+            </form>
+        </section>
+    </div>
+
+    <section id="plus">
+        <a href="#" class="plus__wrapper">
+            <i class="icon-plus"></i>
+        </a>
+    </section>
+
+	<script th:inline="javascript">
+		//Controllerから受け取る
+		 	var fav = /*[[${favList}]]*/"favList";
+		
+			//fav_button配列
+			var fav_button = document.getElementsByClassName('fav');
+		
+		 	window.addEventListener('DOMContentLoaded',function() {
+		 		console.log(fav_button);
+		 		//どのいいねがtrue or falseなのか判定してクラスを書き換え
+		 		for( i=0; i < fav_button.length; i++) {
+					 	if(fav[i] === true) {
+							 fav_button[i].setAttribute('class','fa-solid fa-heart fav');
+					 	} else {
+							 fav_button[i].setAttribute('class','fa-regular fa-heart fav');
+						 }
+			 	}
+			 }, false);
+			 
+			 var bm = /*[[${bmList}]]*/"bmList";
+			 
+			 var bm_button = document.getElementsByClassName('bm');
+			 
+			 window.addEventListener('DOMContentLoaded',function() {
+		 		console.log(bm_button);
+		 		//どのいいねがtrue or falseなのか判定してクラスを書き換え
+		 		for( i=0; i < bm_button.length; i++) {
+					 	if(bm[i] === true) {
+							 bm_button[i].setAttribute('class','fa-solid fa-star bm');
+					 	} else {
+							 bm_button[i].setAttribute('class','fa-regular fa-star bm');
+						 }
+			 	}
+			 }, false);
+	</script>
+    <script th:inline="javascript">
+        //javaからjsにmodelで値を渡す
+        var isSelf = /*[[${isSelf}]]*/"isSelf";
+        console.log("isSelf");
+
+        if (isSelf === true) {
+            //編集ボタンのフォーム下のdivを取得
+            let edit_div = document.getElementById('edit_button');
+            // ボタンを生成
+            let button = document.createElement('button');
+            //ボタンに属性をセット
+            button.setAttribute('class', 'edit btn2');
+            button.setAttribute('type', 'submit');
+            button.setAttribute('formaction', '/profile_edit');
+            //中のテキストを指定
+            button.textContent = '編集する';
+            //指定したdivの配下にbuttonを追加
+            edit_div.appendChild(button);
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>エラー画面 /error</title>
+      <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="./css/style.css" />
+</head>
+
+<body>
+    <header id="header" class="header">
+        <div class="header__inner">
+            <!-- <form action="" class="　right">
+                <button class="login btn2" type="submit">ログイン</button>
+                <button class="sighin btn2" type="submit">ユーザー登録</button>
+            </form> -->
+        </div>
+    </header>
+
+    <div class="wrapper-error">
+        <section id="error">
+            <h1 class="title --white">やってしまいましたね…</h1>
+
+            <form action="/goSignin" method="get">
+				<label name="funny" th:text="${funny}" class="error__message message --white"></label>
+            	
+            	<p class="--white" name="funny2" th:text="${funny2}" ></p>
+            	<iframe width="560" height="315" class="video" src="https://www.youtube.com/embed/2WzTJArgvco" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            
+           		<!--<iframe width="560" height="315" class="video" src="https://www.youtube.com/embed/6WkUY5PGBL8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> -->
+
+           		<button class="btn " type="submit">home</button>
+            </form>
+        </section>
+    </div>
+</body>
+
+</html>

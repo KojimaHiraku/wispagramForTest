@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ブックマーク /bookmarks</title>
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" th:href="@{css/style.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="--gray">
+    <header id="header" class="header --bg">
+        <div class="header__inner">
+            <div class="form-2">
+                <div class="--flex">
+                    <form>
+                        <button class="btn2" type="submit" formaction="/home">ホーム</button>
+                        <button class="btn2" type="submit" formaction="/bookmarks">ブックマーク</button>
+                    </form>
+                    <form action="/searched" method="post">
+                        <input name="search" placeholder="検索" class="input">
+                    </form>
+
+                </div>
+                <div class="--flex">
+                    <form th:action="@{/myProfile_bookmarks}" method="post">
+                        <button class="header__img">
+                            <img th:src="${ImImg}" alt="コンパスジャパンの画像" class="Homeprofile__icon">
+                            <!-- <img src="#" alt=""> まず分かっている事1.直でリンク張ると出る　2.getIconImage()の値は正常　3. ImImgのテキスト情報も正常 4.だが映らない。-->
+                        </button>
+                    </form>
+                    <form action="/bookmarkUpdate" method="post">
+                        <button class="logout btn2" type="submit">更新</button>
+                    </form>
+
+                    <form action="/signin">
+                        <button class="logout btn3" type="submit">ログアウト</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="wrapper2">
+        <section id="bookmarks">
+            <div class="bookmarks__header">
+                <h1 class="title">ブックマーク</h1>
+            </div>
+
+            <div class="bookmarks__body">
+                <ul class="comment__list">
+                    <!-- 繰り返す　仮コメント -->
+                    <th:block th:each="Twidata : ${TwList}">
+                        <div>
+                            <li class="comment___item">
+                                <div class="comment__left">
+                                    <form th:action="@{/user_profile_bookmarks}" method="post">　<!-- どうやらこれらしい。-->
+                                        <button class="comment__icon">
+                                            <img th:src="${Twidata.ownerIconImage}" alt="コンパスジャパンの画像">
+                                        </button>
+                                        <input name="ListNo" th:value="${TwidataStat.index}" style="display:none;">
+                                    </form>
+                                </div>
+                                <div class="comment__right">
+                                    <ul class="text__list">
+                                        <li class="text__item">
+                                            <p class="text__name" th:text="${Twidata.ownerName}"></p>
+                                            <p class="text__time" th:text="${Twidata.getTweetedTime()}"></p>
+                                        </li>
+                                        <li class="text__item">
+                                            <p class="message" th:text="${Twidata.tweetText}"></p>
+                                        </li>
+                                        <li class="Tweet_Image">
+                                            <img th:src="${Twidata.tweetImage1}" alt
+                                                onerror="this.onerror = null; this.src='';">
+                                            <img th:src="${Twidata.tweetImage2}" alt
+                                                onerror="this.onerror = null; this.src='';">
+                                            <!-- <img src="#" alt=""> まず分かっている事1.直でリンク張ると出る　2.getIconImage()の値は正常　3. ImImgのテキスト情報も正常 4.だが映らない。-->
+                                        </li>
+
+                                        <li class="text__item --flex">
+     							  			<form th:action="@{/AddBookmark_bookmarks}" class="--icons" method="post">
+       											<button class="text__bookmark" type="submit">
+              										<i class="fa-solid fa-star bm"></i>
+       								 			</button>
+       								 			<input name="ListNo" th:value="${TwidataStat.index}" style="display:none;">
+       							   			</form>
+       										<form th:action="@{/AddFav_bookmarks}" class="--icons" method="post">
+       								 			<button class="text__heart" type="submit">
+           											<i class="fa-solid fa-heart fav"></i>
+       								 			</button>
+       								 			<label name="favCount" th:text="${Twidata.favCount}" class="--fav-txt"></label>
+   							 				<input name="ListNo" th:value="${TwidataStat.index}" style="display:none;">
+       										</form>
+       										
+   										 </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </div>
+                    </th:block>
+                    <!-- TwidataにStatでステータス変数名として使用できる -->
+                </ul>
+            </div>
+
+            <form action="/bookmarkAdd" method="post">
+                <div class="--ptpb24">
+                    <button class="btn2 --center" type="submit">追加読込</button>
+                </div>
+            </form>
+        </section>
+    </div>
+
+    <section id="plus">
+        <a href="/posting" class="plus__wrapper">
+            <i class="fa-solid fa-circle-plus fa-2xl"></i>
+        </a>
+    </section>
+	<script th:inline="javascript">
+	//Controllerから受け取る
+	 	var fav = /*[[${favList}]]*/"favList";
+	
+		//fav_button配列
+		var fav_button = document.getElementsByClassName('fav');
+	
+	 	window.addEventListener('DOMContentLoaded',function() {
+	 		console.log(fav_button);
+	 		//どのいいねがtrue or falseなのか判定してクラスを書き換え
+	 		for( i=0; i < fav_button.length; i++) {
+				 	if(fav[i] === true) {
+						 fav_button[i].setAttribute('class','fa-solid fa-heart fav');
+				 	} else {
+						 fav_button[i].setAttribute('class','fa-regular fa-heart fav');
+					 }
+		 	}
+		 }, false);
+		 
+		 var bm = /*[[${bmList}]]*/"bmList";
+		 
+		 var bm_button = document.getElementsByClassName('bm');
+		 
+		 window.addEventListener('DOMContentLoaded',function() {
+	 		console.log(bm_button);
+	 		//どのいいねがtrue or falseなのか判定してクラスを書き換え
+	 		for( i=0; i < bm_button.length; i++) {
+				 	if(bm[i] === true) {
+						 bm_button[i].setAttribute('class','fa-solid fa-star bm');
+				 	} else {
+						 bm_button[i].setAttribute('class','fa-regular fa-star bm');
+					 }
+		 	}
+		 }, false);
+	</script>
+
+</body>
+
+</html>

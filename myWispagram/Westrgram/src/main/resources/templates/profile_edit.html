@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>profile_edit</title>
+      <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="./css/style.css" />
+</head>
+
+<body class="--gray">
+    <header id="header" class="header --bg">
+        <div class="header__inner">
+            <div class="form-2">
+                <div class="--flex">
+                    <form>
+                        <button class="btn2" type="submit" formaction="/home">ホーム</button>
+                        <button class="btn2" type="submit" formaction="/bookmarks">ブックマーク</button>
+                    </form>
+                    <form action="/searched" method="post">
+                        <input name="search" placeholder="検索" class="input">
+                    </form>
+           
+                </div>
+                <div class="--flex">		
+                    <form th:action="@{/myProfile}" method="post">
+                        <button class="header__img">
+                            <img th:src="${ImImg}" alt="コンパスジャパンの画像" class="Homeprofile__icon">
+                            <!-- <img src="#" alt=""> まず分かっている事1.直でリンク張ると出る　2.getIconImage()の値は正常　3. ImImgのテキスト情報も正常 4.だが映らない。-->
+                        </button>
+                    </form>
+
+                    <form action="/signin">
+                        <button class="logout btn3" type="submit">ログアウト</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="wrapper3">
+        <section id="edit">
+            <div class="edit__header">
+                <h1 class="title">アカウント編集 /profile_edit</h1>
+            </div>
+            <form onsubmit="return update()" th:action="@{/profile_edit}" method="post" class="--flex"  enctype="multipart/form-data">
+                <div class="edit__body">
+					
+					
+                    <ul class="edit__list">
+                        <li class="edit__item edit__icon">
+						<form action="/user_profile" method="post">　<!-- どうやらこれらしい。-->
+                            <div class="comment__icon">
+                                <img th:src="${image}" alt="コンパスジャパンの画像">
+                            </div>
+                            <input name="ListNo" value="0" style="display:none;">
+						</form>
+                       
+    
+                        </li>
+                        <li class="edit__item">
+                            <div class="--label">
+                                <label for="edit1" class="--label-txt">ユーザー名</label>
+                                <input name="name" id="edit1" class="input" placeholder="花田 ハナコ" th:value="${name}">
+                            </div>
+                        </li>
+                        <li class="edit__item">
+                            <div class="--label">
+                                <label for="edit2" class="--label-txt">自己紹介</label>
+                                <textarea name="text" id="edit2" class="input" placeholder="初めまして、よろしくお願いいたします" th:text="${text}"></textarea>
+                            </div>
+                        </li>
+                          <li class="edit__item">
+									  <label for="edit2" class="--label-txt">アイコン画像変更</label>
+                                       <input type="file" id="Usericondata" name="Usericondata" accept="image/*" onchange="previewFile(this);">
+                                        <div class="text__image">
+                                           <img id="preview"  style="background: #eee;padding: 10%;">
+                                        </div>
+
+                              </li>
+                        <li class="edit__item">
+                            <h3>パスワード変更</h3>
+                            <div class="--label">
+                                <label for="edit3" class="--label-txt">旧パスワード、または旧秘密の答えを入力してください</label>
+                                <input type="password" name="check" id="edit3" class="input" placeholder="XXXX">
+                                <table>
+                                	<tr><td style="color: red;" th:text="${empty}"></td></tr>
+                                	<tr><td style="color: red;" th:text="${miss}"></td></tr>
+                                </table>
+                            </div> 
+                        </li>
+                        <li class="edit__item">
+                            <div class="--label">
+                                <label for="edit4" class="--label-txt">新しいパスワード</label>
+                                <input type="password" name="pass" id="edit4" class="input" placeholder="XXXX">
+                            </div> 
+                        </li>
+                        <li class="edit__item">
+                            <div class="--label">
+                                <label for="edit5" class="--label-txt">新しいパスワード（再入力）</label>
+                                <input type="password" name="rePass" id="edit5" class="input" placeholder="XXXX">
+                                <p style="display:inline; color:red" th:text="${notEquals}">
+                            </div> 
+                        </li>
+                        <li class="edit__item">
+                            <div class="--label">
+                                <label for="edit6" class="--label-txt">秘密の質問</label>
+                                <input name="subPassText" id="edit6" class="input" placeholder="子供の頃の夢は？" th:value="${subPassText}">
+                            </div> 
+                        </li>
+                        <li class="edit__item">
+                            <div class="--label">
+                                <label for="edit7" class="--label-txt">新しい秘密の答え</label>
+                                <input name="subPassAns" id="edit7" class="input" placeholder="XXXXX">
+                            </div>  
+                        </li>
+                    </ul>
+                   
+                    <div class="btn__wrapper">
+                    	<button class="btn" type="submit">更新</button>
+                    </div>  
+            </form>
+            <div class="btn__wrapper" style="padding-bottom: 24px;">
+            	<form onsubmit="return delete_user()" th:action="@{/deleteAccount}" method="post">
+            		 <button class="btn" type="submit">アカウント削除</button>
+				</form>
+			</div>
+        </section>
+    </div>
+    <section id="plus">
+        <a href="#" class="plus__wrapper">
+            <i class="icon-plus"></i>
+        </a>
+    </section>
+</body>
+<script>
+	function update() {
+		if(confirm("編集内容を確定します")===false) {return false}
+	}
+	function delete_user() {
+		if(confirm("本当にアカウントを削除しますか？")===false) {return false}
+	}
+	function previewFile(hoge){
+			var fileData = new FileReader();
+			fileData.onload = (function() {
+				//id属性が付与されているimgタグのsrc属性に、fileReaderで取得した値の結果を入力することで
+				//プレビュー表示している
+				document.getElementById('preview').src = fileData.result;
+			});
+			fileData.readAsDataURL(hoge.files[0]);
+	 }
+</script>
+
+</html>

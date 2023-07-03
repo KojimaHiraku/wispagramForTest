@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>posting</title>
+      <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="./css/style.css" />
+</head>
+
+<body class="--gray">
+    <header id="header" class="header --bg">
+        <div class="header__inner">
+            <div action="" class="form-2">
+                <div class="--flex">
+                	<form>
+                    	<button class="btn2" type="submit" formaction="/home">ホーム</button>
+                    	<button class="btn2" type="submit" formaction="/bookmarks">ブックマーク</button>
+                    </form>
+                    <form action="/searched" method="post">
+                        <input name="search" placeholder="検索" class="input">  
+                    </form>
+                    <!-- <form action="/homeUpdate" method="post">
+            			<button class="logout btn2" type="submit">更新</button>
+            		</form> -->
+                </div>
+                <div class="--flex">
+                    <div class="header__img" style="display: inline-block;">		
+						 <img th:src="${ImImg}" alt="コンパスジャパンの画像"  class="Homeprofile__icon">						     <!-- <img src="#" alt=""> まず分かっている事1.直でリンク張ると出る　2.getIconImage()の値は正常　3. ImImgのテキスト情報も正常 4.だが映らない。-->
+                    </div>              
+ 					<form action="/signin">
+                    	<button class="logout btn3" type="submit">ログアウト</button>
+                    </form>
+                </div>
+            </form>
+        </div>
+    </header>
+    
+    <form action="/posting" method="post" enctype="multipart/form-data">
+        <div class="wrapper3">
+            <section id="posting">
+                <!-- <div class="posting__header">
+                    <h1 class="title">投稿 /posting</h1>
+                </div> -->
+
+                <div class="posting__body">
+
+                    <ul class="comment__list">
+                        <li class="comment___item">
+                            <div class="comment__left">
+                                <div class="comment__icon">
+                                    <img th:src="${ImImg}" alt="コンパスジャパンの画像">
+                                </div>
+
+                            </div>
+                            <div class="comment__right">
+                                <ul class="text__list">
+									
+                                    <li class="error_text" style="color: red;" >
+										<td th:text="${NullTextPost}"></td>
+                                    </li>
+                                    <li class="text__item">
+                                        <p class="message">今どうしてる？</p>
+                                        
+										
+                                        <textarea type="input" name="text" placeholder="よかったことは・・・" class="textarea"></textarea>
+                                    </li>
+                                    <li class="text__item">
+                                        	<input type="file" id="img1" name="img1" accept="image/*" onchange="previewFile(this);">
+                                        <div class="text__image">
+                                           <img id="preview"style="background: #eee;padding: 10%;">
+                                        </div>
+                                    </li>
+                                    <li class="text__item">
+                                        	<input type="file" id="img2" name="img2" accept="image/*"  onchange="previewFile2(this);">
+                                          <div class="text__image2">
+                                            <img id="preview2"style="background: #eee;padding: 10%;">
+                                        </div>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        <li class="--pb24">
+                            <div class="btn__wrapper --btn">   
+                                <button class="btn" type="submit">つぶやく</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+
+		<!-- <section id="plus">
+            <a href="#" class="plus__wrapper">
+                <i class="icon-plus"></i>
+            </a>
+        </section> -->
+    </form>
+    
+    <script>
+		function previewFile(hoge){
+			var fileData = new FileReader();
+			fileData.onload = (function() {
+				//id属性が付与されているimgタグのsrc属性に、fileReaderで取得した値の結果を入力することで
+				//プレビュー表示している
+				document.getElementById('preview').src = fileData.result;
+			});
+			fileData.readAsDataURL(hoge.files[0]);
+	  	}
+	  	function previewFile2(hoge){
+			var fileData = new FileReader();
+			fileData.onload = (function() {
+				//id属性が付与されているimgタグのsrc属性に、fileReaderで取得した値の結果を入力することで
+				//プレビュー表示している
+				document.getElementById('preview2').src = fileData.result;
+			});
+			fileData.readAsDataURL(hoge.files[0]);
+	  	}
+	</script>
+</body>
+
+</html>

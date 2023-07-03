@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ログイン /signin</title>
+      <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" th:href="@{css/style.css}" />
+</head>
+
+<body>
+    <header id="header" class="header">
+        <div class="header__inner">
+            <form action="/signup" class="--right">
+                <!-- <button class="login btn2" type="submit">ログイン</button> -->
+                <button class="sighin btn2" type="submit">ユーザー登録</button>
+            </form>
+
+        </div>
+    </header>
+
+    <div class="wrapper">
+        <section id="signin">
+            <h1 class="title">ログイン</h1>
+
+            <table>
+                <!--  アカウント作成成功メッセージ -->
+                <tr>
+                    <td style="color: deepskyblue;" th:text="${success}"></td>
+                </tr>
+                <!-- 入力エラーメッセージ -->
+                <tr>
+                    <td style="color: red;" th:text="${nothing}"></td>
+                </tr>
+                <tr>
+                    <td style="color: red;" th:text="${notFind}"></td>
+                </tr>
+                <tr>
+                    <td style="color: red;" th:text="${miss}"></td>
+                </tr>
+            </table>
+            <form action="/signin" class="form-1" method="post">
+                <input name="ID" id="" class="input" placeholder="ユーザーID">
+                <input name="Password" id="" class="input" placeholder="パスワード">
+                <div class="btn__wrapper">
+                    <button class="btn" type="submit">つぎへ</button>
+                </div>
+                <a href="/signin2">パスワード忘れた方はこちら</a>
+            </form>
+        </section>
+    </div>
+
+</body>
+
+</html>

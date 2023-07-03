@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ユーザー登録 /signup</title>
+      <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" th:href="@{css/style.css}" />
+</head>
+
+<body>
+    <header id="header" class="header">
+        <div class="header__inner">
+            <form action="/signin" class="--right">
+                <button class="login btn2" type="submit">ログイン</button>
+                <!-- <button class="sighin btn2" type="submit">ユーザー登録</button>  -->
+            </form>
+        </div>
+    </header>
+    <div class="wrapper">
+        <section id="signup">
+            <h1 class="title">ユーザー登録</h1>
+            <!-- エラーメッセージ表示テーブル -->
+            <table>
+                <tr th:if="${validationError}" th:each="error : ${validationError}">
+                    <td style="color: red;" th:text="${error}"></td>
+                </tr>
+                <tr>
+                    <td style="color: red;" th:text="${missMatch}"></td>
+                </tr>
+                <tr>
+                    <td style="color: red;" th:text="${duplication}"></td>
+                </tr>
+            </table>
+            
+            <form th:action="@{/signup}" th:object="${storage}" method="post" class="form-1">
+				<dl class="--flex-a">
+					<dt class="signup__left"><label for="signupUserNo" class="--label-txt">ユーザー番号：</label></dt>
+               		<dd><input class="input" th:field="*{signupUserNo}" placeholder="0001" id="signupUserNo"></dd>
+				</dl>
+				<dl class="--flex-a">
+					<dt class="signup__left"><label for="signupUserName" class="--label-txt">ユーザー名：</label></dt>
+               		<dd><input class="input" th:field="*{signupUserName}" placeholder="Nobita" id="signupUserName"></dd>
+				</dl>
+				<dl class="--flex-a">
+					<dt class="signup__left"><label for="signupPassword" class="--label-txt">パスワード：</label></dt>
+               		<dd><input class="input" th:field="*{signupPassword}" placeholder="****" id="signupPassword"></dd>
+				</dl>
+                <dl class="--flex-a">
+					<dt class="signup__left"><label for="signupRePassword" class="--label-txt">パスワード(確認)：</label></dt>
+               		<dd><input class="input" th:field="*{signupRePassword}" placeholder="****" id="signupRePassword"></dd>
+				</dl>
+				<dl class="--flex-a">
+					<dt class="signup__left"><label for="signupSubPasswordText" class="--label-txt">ひみつの質問：</label></dt>
+               		<dd><input class="input" th:field="*{signupSubPasswordText}" placeholder="自由自在に空を飛べる秘密道具は？" id="signupSubPasswordText"></dd>
+				</dl>
+                <dl class="--flex-a">
+					<dt class="signup__left"><label for="signupSubPasswordAnswer" class="--label-txt">質問の答え：</label></dt>
+               		<dd><input class="input" th:field="*{signupSubPasswordAnswer}" placeholder="タケコプター" id="signupSubPasswordAnswer"></dd>
+				</dl>
+                
+                <div class="btn__wrapper">
+                    <button class="btn" type="submit">登録</button>
+                </div>
+            </form>
+        </section>
+    </div>
+
+</body>
+
+</html>
